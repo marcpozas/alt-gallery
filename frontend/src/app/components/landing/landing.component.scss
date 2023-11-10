@@ -1,0 +1,39 @@
+:host {
+  .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    padding: 0 6rem;
+    box-sizing: border-box;
+    background-color: #d1d1d1;
+    box-shadow: 0 2px 5px 1px rgba(64,60,67,.16);
+
+    .nav-links {
+      display: flex;
+      flex-direction: row;
+      text-decoration: none;
+      gap: 2rem;
+      a {
+        color: #8d8d8d;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+    gap: 2rem;
+    h1 {
+      font-family: InknutAntiquaExtraBold;
+    }
+  }
+}

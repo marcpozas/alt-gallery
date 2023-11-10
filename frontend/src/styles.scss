@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-1: #bfcce9cc;
+  --color-2: #000000;
+  --color-3: #c4e3ff;
+  --color-4: #000000;
+  --background-color: #EFEFEF;
+  --text-color: #1A1A1A;
+
+  --color-button-green: rgb(135, 255, 113);
+  --color-button-red: rgb(204, 77, 77);
+  --color-button-gray: rgb(104, 104, 104);
+
+  body, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+  li {
+    list-style-type: none;
+  }
+  a {
+    text-decoration: none;
+  }
+  p, a, h1 {
+    font-family: NotoSansExtraBold;
+    color: var(--text-color);
+  }
+}
+
+// @font-face {
+//   font-family: 'OpenSans';
+//   src: url('assets/fonts/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+@font-face {
+  font-family: 'InknutAntiquaExtraBold';
+  src: url('assets/Fonts/Inknut_Antiqua/InknutAntiqua-ExtraBold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
