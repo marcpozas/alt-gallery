@@ -1,4 +1,1 @@
-<!-- <div class="search-bar"> -->
-  <input type="text" [(ngModel)]="userInput" class="search-bar" placeholder="{{placeholder}}">
-  <!-- <p class="placeholder">Fluffy seal on the snow</p> -->
-<!-- </div> -->
+<input type="text" [(ngModel)]="userInput" class="search-bar" placeholder="{{placeholder}}" (keyup.enter)="onSearch()">

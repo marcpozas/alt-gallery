@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent {
+  title: string = "What are you looking for?"
+
+  constructor() {  }
+
+  ngOnInit() {
+    
+  }
 
 }
