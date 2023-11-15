@@ -47,6 +47,7 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 15px;
+        flex-direction: row;
 
         label {
           font-weight: bold;
@@ -129,11 +130,34 @@
     transition: height 3s ease; // Adjust the duration and timing function as needed
     overflow: hidden; // Hide overflow content when transitioning
   }
+
+  .warning-icon {
+    color: #db1616;
+    font-size: 30px;
+    height: 100%;
+    width: 3rem;
+  }
 }
 
 ::ng-deep {
   .loginDialog .mat-mdc-dialog-surface {
     background-color: transparent;
     height: fit-content;
+  }
+
+  .registration-snackbar {
+    .mdc-snackbar__surface {
+      width: 50rem !important;
+      background-color: #319746 !important;
+    }
+    .mdc-button__label {
+      color: #ebebeb !important;
+      font-family: OpenSans !important;
+      font-weight: 400 !important;
+    }
+    .mdc-snackbar__label {
+      font-family: OpenSans !important;
+      font-weight: 400 !important;
+    }
   }
 }
