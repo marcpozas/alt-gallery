@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ImageService } from 'src/app/services/image.service';
-import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,28 +13,18 @@ export class SearchBarComponent {
   userInput: string = '';
   placeholder: string = 'Fluffy seal on the snow';
 
-  constructor(private imageService: ImageService,
-              private router: Router,
-              private searchService: SearchService) {  }
+  constructor(private router: Router) {  }
 
   @Output() searchImages = new EventEmitter<string[]>();
 
   public onSearch(): void {
     console.log(this.userInput);
     const termsArray = this.userInput.trim().split(/[ ,.]+/);
+    const searchTerm = termsArray.join(' ');
     console.log(termsArray);
     this.userInput = "";
-    if (termsArray) {
-      if (this.isLanding) {
-        this.onNavigateToGallery(termsArray);
-      } else {
-        this.searchImages.emit(termsArray);
-      }
+    if (termsArray.length > 0 && termsArray[0] !== '') {
+      this.router.navigate(['/gallery', searchTerm]);
     }
-  }
-
-  public onNavigateToGallery(searchTerms: string[]): void {
-    this.searchService.setSearchTerms(searchTerms);
-    this.router.navigate(['/gallery']);
   }
 }

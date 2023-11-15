@@ -6,7 +6,7 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to the landing page by default
   { path: 'home', component: LandingComponent },
-  { path: 'gallery', component: GalleryComponent },
+  { path: 'gallery/:searchTerms', component: GalleryComponent },
   // { path: 'login', component: LoginComponent },
   // { path: 'register', component: RegisterComponent },
 ];

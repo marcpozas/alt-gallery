@@ -9,9 +9,8 @@ export class ImageService {
 
   constructor(private http: HttpClient) {}
 
-  searchImages(searchTerms: string[]): Observable<any> {
-    const joinedSearchTerms = searchTerms.join('&');
-    console.log(joinedSearchTerms);
-    return this.http.get(`/api/search?term=${joinedSearchTerms}`);
+  searchImages(searchTerms: string): Observable<any> {
+    console.log(searchTerms);
+    return this.http.get(`/api/search?term=${searchTerms}`);
   }
 }
