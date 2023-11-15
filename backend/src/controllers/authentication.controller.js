@@ -6,12 +6,6 @@ import User from '../models/user.model.js';
 dotenv.config()
 const saltOrRounds = 10;
 
-const usersDB = [{
-    username: "testUser",
-    email: "miau.miau@gmail.com",
-    hashPassword: "$2b$10$dHM/UtMh041FVVwA5LI1l.ITAGkkykMaLkIdPWfdcV.lo8b50qo.i"
-}]
-
 export async function register(req, res) {
     try {
         if (!req.body.username || !req.body.email || !req.body.password || !req.body.confirmPassword) {
@@ -35,7 +29,7 @@ export async function register(req, res) {
             await newUser.save();
             res.status(201).send({status: "ok", message: "User registered", redirect: "/"});
         } else {
-            res.status(400).send({status: "Error", message: "Something failed" });
+            res.status(400).send({status: "Error", message: "Passwords are different" });
         }
     } catch (error) {
         res.status(400).send({status: "Error", message: "Something failed" });

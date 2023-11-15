@@ -2,10 +2,19 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import routerUser from "./routes/user.router.js";
+import cors from "cors";
 
 const app = express()
 dotenv.config()
 app.use(express.json())
+
+const corsOptions = {
+  origin: 'http://localhost:4200', // Update with your Angular app's URL
+  credentials: true, // Enable credentials (cookies)
+};
+
+
+app.use(cors(corsOptions));
 
 app.use(routerUser);
 
