@@ -41,10 +41,13 @@ export async function addImage(req, res) {
     if (!imageLink) {
       return res.status(400).json({ error: 'No image URL provided' });
     }
+    console.log(req.headers.authorization);
 
     const token = req.headers.authorization.replace('Bearer ', ''); // Assuming JWT token in headers
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jsonwebtoken.verify(token, process.env.JWT_SECRET);
     const userId = decodedToken.userId;
+    console.log(decodedToken);
+    console.log(userId);
 
     // Create a new Image document in the database
     const newImage = new Image({

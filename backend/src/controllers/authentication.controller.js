@@ -53,7 +53,7 @@ export async function login(req, res) {
         return res.status(400).send({status: "Error", message: "Error while logging."});
     }
     const token = jsonwebtoken.sign(
-        {user:existingUser.username}, 
+        {userId:existingUser._id}, 
         process.env.JWT_SECRET, 
         {expiresIn: process.env.JWT_EXPIRATION}
         );
