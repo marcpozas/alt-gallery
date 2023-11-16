@@ -1,0 +1,5 @@
+PORT=
+JWT_SECRET=asdf
+JWT_EXPIRATION=
+JWT_COOKIE_EXPIRES=
+MONGODB_URI=mongodb://localhost:
