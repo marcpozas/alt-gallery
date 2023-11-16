@@ -5,33 +5,28 @@ import Image from '../models/image.model.js';
 dotenv.config()
 
 export async function getImages (req, res) {
-    if (!req.query.count || !req.query.searchTerms) {
-      return res.status(400).send({status: "Error", message: "Some fields are incomplete."})
+  try {
+    const { count, searchTerms } = req.body;
+
+    if (!count || !searchTerms || !Array.isArray(searchTerms) || searchTerms.length === 0) {
+      return res.status(400).json({ error: 'Invalid input parameters' });
     }
 
-    const { count, searchTerms } = req.query;
-    const searchTermsArray = searchTerms.split(" ");
     const numImages = parseInt(count);
-    console.log(numImages);
-    console.log(searchTermsArray);
 
     if (isNaN(numImages) || numImages <= 0) {
-        return res.status(400).json({ error: 'Invalid count parameter' });
+      return res.status(400).json({ error: 'Invalid count parameter' });
     }
 
-    const images = await Image.find().limit(numImages);
-    console.log(typeof searchTerms);
+    const query = { tags: { $in: searchTerms } };
 
-    // const searchTermsArray = JSON.parse(searchTerms || '[]');
+    const images = await Image.find(query).limit(numImages);
 
-    // const selectedStrings = images.map((image) => {
-    //     return {
-    //         imageId: image._id,
-    //         strings: image.tags.filter((str) => searchTermsArray.includes(str)),
-    //     };
-    // });
-    
-    // res.status(200).json(selectedStrings);
+    res.status(200).json(images);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
 }
 
 export async function addImage(req, res) {
