@@ -3,12 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
-  selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
-export class GalleryComponent {
-  searchTerms: string = "";
+export class ProfileComponent {
+  title: string = "";
+  biography: string = "Lorem ipsum alo fmgs sk lfdds";
+  username: string = "";
   results: { numberImages: number; search: string } = {numberImages: 0, search: ""};
   columns: number = 3;
   imagesArray = [];
@@ -19,13 +21,14 @@ export class GalleryComponent {
   constructor(private route: ActivatedRoute,
               private imageService: ImageService,
               private elementRef: ElementRef,
-              private changeDetectorRef: ChangeDetectorRef) {}
+              private changeDetectorRef: ChangeDetectorRef) {  }
+
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.searchTerms = params['searchTerms'];
-      this.results["search"] = this.searchTerms;
-      this.imageService.searchImages(this.page, 10, this.searchTerms).subscribe((results) => {
+      this.username = params['username'];
+      this.imageService.searchUserImages(this.page, this.pageSize, this.username).subscribe((results) => {
+        console.log(results);
         this.imagesArray = this.imagesArray.concat(results);
       });
     });
@@ -34,11 +37,18 @@ export class GalleryComponent {
   ngAfterViewChecked() {
     this.calculateColumns();
     this.changeDetectorRef.detectChanges();
+    setTimeout(() => {
+      this.calculateColumns();
+      this.changeDetectorRef.detectChanges();
+    }, 500);
   }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight && !this.loading) {
+    if (
+      window.innerHeight + window.scrollY >= document.body.scrollHeight &&
+      !this.loading
+    ) {
       this.page++;
       this.loadImages();
     }
@@ -46,7 +56,7 @@ export class GalleryComponent {
 
   loadImages() {
     this.loading = true;
-    this.imageService.searchImages(this.page, this.pageSize, this.searchTerms)
+    this.imageService.searchUserImages(this.page, this.pageSize, this.username)
       .subscribe((results) => {
         this.imagesArray = this.imagesArray.concat(results);
         this.loading = false;
@@ -78,7 +88,6 @@ export class GalleryComponent {
   }
 
   public fillColumns(): void {
-    console.log("fsfsd");
     const divImages = this.elementRef.nativeElement.querySelector('.images');
     const columns: HTMLElement[] = Array.from(
       divImages.querySelectorAll('.column')
@@ -87,29 +96,18 @@ export class GalleryComponent {
 
     this.imagesArray.forEach((imageUrl) => {
       const image = new Image();
-      image.src = imageUrl["imageLink"];
+      image.src = imageUrl;
       image.style.width = '18rem';
       image.style.borderRadius = '10px';
       // Find the column with the minimum height
       const minHeight = Math.min(...columnHeights);
       // Find the index of the column with the minimum height
       const columnIndex = columnHeights.indexOf(minHeight);
-      // Title creation
-      const pTitle = document.createElement('p');
-      pTitle.textContent = imageUrl["title"];
-      pTitle.style.margin = '0.5rem 0';
-      pTitle.style.fontFamily = 'OpenSans';
-      pTitle.style.textIndent = '0.5rem';
-      // User creation
-      // const pUser = document.createElement('p');
-      // pUser.textContent = imageUrl["user"];
       // Create a new container for the image
       const imageContainer = document.createElement('div');
       imageContainer.style.display = 'flex';
-      imageContainer.style.flexDirection = 'column';
       imageContainer.classList.add('image-container');
       imageContainer.appendChild(image);
-      imageContainer.appendChild(pTitle);
       // Add the image container to the column with the minimum height
       columns[columnIndex].appendChild(imageContainer);
       // Update the height of the column with the added image

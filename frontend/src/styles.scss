@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --color-1: #bfcce9cc;
-  --color-2: #000000;
-  --color-3: #c4e3ff;
+  --color-1: #F4EEE0;
+  --color-2: #4F4557;
+  --color-3: #393646;
   --color-4: #000000;
-  --background-color: #EFEFEF;
+  --background-color: #6D5D6E;
   --text-color: #1A1A1A;
 
   --color-button-green: rgb(135, 255, 113);
@@ -13,6 +13,9 @@
 
   body, h1, h2, h3, h4, h5, h6 {
     margin: 0;
+  }
+  body {
+    overflow-x: hidden;
   }
   li {
     list-style-type: none;

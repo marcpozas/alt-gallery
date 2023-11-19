@@ -1,26 +1,28 @@
 :host {
   .content {
-    padding-top: 8rem;
+    margin-top: 8rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2rem;
-    background-color: var(--background-color);
 
     .container {
       display: flex;
       flex-direction: column;
       width: 80vw;
-      background-color: var(--color-1);
+      background-color: rgb(238, 238, 238);
       border-radius: 10px;
       padding: 1rem;
     }
 
-    .results {
+    .info {
       margin: 2rem 0;
       font-family: InknutAntiquaExtraBold;
       text-indent: 3rem;
+      p {
+        font-family: OpenSans;
+      }
     }
 
     .image-container {

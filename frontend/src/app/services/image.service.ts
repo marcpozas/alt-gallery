@@ -9,8 +9,13 @@ export class ImageService {
 
   constructor(private http: HttpClient) {}
 
-  searchImages(searchTerms: string): Observable<any> {
-    console.log(searchTerms);
-    return this.http.get(`/api/search?term=${searchTerms}`);
+  searchImages(page: number, count: number, searchTerms: string): Observable<any> {
+    console.log(page);
+    return this.http.get(`http://localhost:3500/images?page=${page}&count=${count}&searchTerms=${searchTerms}`);
+  }
+
+  searchUserImages(page: number, count: number, username: string): Observable<any> {
+    console.log(page);
+    return this.http.get(`http://localhost:3500/userImages?page=${page}&count=${count}&username=${username}`);
   }
 }

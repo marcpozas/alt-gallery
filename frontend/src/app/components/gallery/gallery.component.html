@@ -4,12 +4,6 @@
     <h2 class="results">{{ results["numberImages"] }} "{{ results["search"] }}" images found</h2>
     <div class="images">
 
-      <!-- <div class="column" *ngFor="let column of [].constructor(columns); let i = index">
-        <div class="image" *ngFor="let imageUrl of exampleImages.slice(i * countImages/columns, (i + 1) * countImages/columns)">
-          <img [src]="imageUrl" alt="Image {{ i }}">
-        </div>
-      </div> -->
-
       <div class="column" *ngFor="let column of [].constructor(columns); let i = index"></div>
 
     </div>
