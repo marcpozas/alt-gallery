@@ -1,26 +1,41 @@
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 import Image from '../models/image.model.js';
+import User from '../models/user.model.js';
 
 dotenv.config()
 
 export async function getImages (req, res) {
   try {
-    const { count, searchTerms } = req.body;
+    const { page, count, searchTerms } = req.query;
+    const searchTermsArray = searchTerms.split(" ");
 
-    if (!count || !searchTerms || !Array.isArray(searchTerms) || searchTerms.length === 0) {
+    if (!count || !searchTermsArray || !Array.isArray(searchTermsArray) || searchTermsArray.length === 0) {
       return res.status(400).json({ error: 'Invalid input parameters' });
     }
 
     const numImages = parseInt(count);
+    const numPage = parseInt(page);
 
-    if (isNaN(numImages) || numImages <= 0) {
+    if (!numImages || isNaN(numImages) || numImages <= 0) {
       return res.status(400).json({ error: 'Invalid count parameter' });
     }
 
-    const query = { tags: { $in: searchTerms } };
+    if (!numPage || isNaN(numPage) || numPage < 1) {
+      return res.status(400).json({ error: 'Invalid page parameter' });
+    }
 
-    const images = await Image.find(query).limit(numImages);
+    const skip = (numPage - 1) * numImages;
+    
+    const query = { tags: { $in: searchTermsArray } };
+
+    const images = await Image.find(query)
+      .skip(skip)
+      .limit(numImages)
+      .select('title imageLink')
+      .populate('user', 'username');
+
+    // const imageLinks = images.map((image) => image.imageLink);
 
     res.status(200).json(images);
   } catch (error) {
@@ -63,35 +78,40 @@ export async function addImage(req, res) {
   }
 }
 
-
-/*
-const Image = require('../models/Image'); // Assuming you have an Image model
-
-exports.getImages = async (req, res) => {
+export async function getUserImages (req, res) {
   try {
-    const { count, strings } = req.query; // Get the count and strings from query parameters
+    const { page, count, username } = req.query;
 
-    // Validate and parse count
     const numImages = parseInt(count);
-    if (isNaN(numImages) || numImages <= 0) {
+    const numPage = parseInt(page);
+
+    if (!numImages || isNaN(numImages) || numImages <= 0) {
       return res.status(400).json({ error: 'Invalid count parameter' });
     }
 
-    // Query the database to get the desired number of images
-    const images = await Image.find().limit(numImages);
+    if (!numPage || isNaN(numPage) || numPage < 1) {
+      return res.status(400).json({ error: 'Invalid page parameter' });
+    }
 
-    // Extract the requested strings from the images
-    const selectedStrings = images.map((image) => {
-      return {
-        imageId: image._id,
-        strings: image.strings.filter((str) => strings.includes(str)),
-      };
-    });
+    const skip = (numPage - 1) * numImages;
 
-    res.status(200).json(selectedStrings);
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const query = { user: user._id };
+
+    const images = await Image.find(query)
+      .skip(skip)
+      .limit(numImages);
+
+    const imageLinks = images.map((image) => image.imageLink);
+
+    res.status(200).json(imageLinks);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Server error' });
   }
-};
-*/
+}
